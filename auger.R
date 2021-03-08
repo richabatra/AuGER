@@ -328,8 +328,8 @@ get_network <- function(asso_df, cytoscape=F, network_title='net') {
     # name styles of cytoscape networks based on the outcome_name
     this_style <- this_net <- network_title
     collection_name <- 'Auger based associations'
-    #browser()
-    # new graph object with node attributes
+
+    # new graph object
     g <- graph_from_data_frame(edge_list[,c('source', 'target')], directed = F) %>% 
       igraph::simplify() # remove self loops
     # load the network to cytoscape
@@ -415,8 +415,6 @@ auger_multi_impute <- function(
   # bind asso_freq and coefs
   tmp <- bind_cols(asso_freq, coefs)
   # remove the coef column and duplicates
-  out <- all_asso_df %>% left_join (tmp, by='uid') %>% select(-coef) %>% unique() %>%
-  # add the string of coefs per association
-     mutate(coefs =coefs)
+  out <- all_asso_df %>% left_join (tmp, by='uid') %>% select(-coef) %>% unique()
   return(out)
 }
